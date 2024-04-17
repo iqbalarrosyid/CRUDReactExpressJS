@@ -34,9 +34,9 @@ export const createUser = async (req, res) => {
   try {
     const newUser = await User.create(req.body);
 
-    const createdUser = await User.findOne({ where: { id: newUser.id } });
+    // const createdUser = await User.findOne({ where: { id: newUser.id } });
 
-    res.status(201).json({ msg: "User created", user: createdUser });
+    res.status(201).json({ msg: "User created", user: newUser });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -52,7 +52,7 @@ export const updateUser = async (req, res) => {
     });
 
     if (updateResult[0] === 0) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(400).json({ message: "No data has been changed" });
     }
 
     const updatedUser = await User.findOne({ where: { id: req.params.id } });
